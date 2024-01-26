@@ -4,7 +4,9 @@ import {ref} from "vue";
 import Swal from "sweetalert2";
 import { Plus } from '@element-plus/icons-vue';
 
-const products=usePage().props.products;
+defineProps({
+    products:Array
+});
 const categories=usePage().props.categories;
 const brands=usePage().props.brands;
 
@@ -155,6 +157,36 @@ const updateProduct= async()=>{
         console.log(err);
     }
 };
+const deleteProduct=(product,index)=>{
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                try {
+                    router.delete(`/admin/products/destroy/${product.id}`,{
+                        onSuccess:(page)=>{
+                            delete(product,index);
+                            Swal.fire({
+                                toast:true,
+                                icon:'success',
+                                position:'top-end',
+                                showConfirmButton:false,
+                                title:page.props.flash.success
+                            })
+                        }
+                    })
+                }catch (err){
+                    console.log(err);
+                }
+            }
+        });
+};
 </script>
 <template>
     <el-dialog
@@ -217,7 +249,7 @@ const updateProduct= async()=>{
 
             <!--  List  of images in edit mode-->
            <div class="flex flex-nowrap mb-8">
-               <div v-for="pimage , index in product_images" :key="pimage.id" class="relative mr-5">
+               <div v-for="pimage, index in product_images" :key="pimage.id" class="relative mr-5">
                    <img class="w-24 h-24 rounded" :src="`/${pimage.image}`" alt="">
                    <span @click="deleteImage(pimage, index)" class="absolute top-0 right-0 transform -translate-y-1/2 w-3.5 h-3.5 bg-blue-700 border-2 border-white dark:border-gray-800 rounded-full">
                        <span class="text-white text-xs font-bold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">x</span>
@@ -349,15 +381,13 @@ const updateProduct= async()=>{
                                 </button>
                                 <div :id="`${product.id}`" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" :aria-labelledby="`${product.id}-button`">
+
                                         <li>
-                                            <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
-                                        </li>
-                                        <li>
-                                            <button @click="openEditModal(product)" class="block w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</button>
+                                            <button @click="openEditModal(product)" class="block w-full text-left py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</button>
                                         </li>
                                     </ul>
                                     <div class="py-1">
-                                        <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
+                                        <a href="#" @click="deleteProduct(product, index)" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                                     </div>
                                 </div>
                             </td>

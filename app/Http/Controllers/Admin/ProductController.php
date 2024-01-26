@@ -80,4 +80,10 @@ class ProductController extends Controller
         $product->update();
         return redirect()->back()->with('success','Product created successfully.');
     }
+    public function destroy($id)
+    {
+        $product=Product::findOrFail($id)->delete();
+        return redirect()->back()->with('success','Product deleted successfully.');
+
+    }
 }
