@@ -16,7 +16,6 @@ onMounted(() => {
     <!--    Header  -->
     <Header/>
     <!--    Header end   -->
-    <Hero/>
 
     <!--        Main         -->
     <slot/>
