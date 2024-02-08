@@ -1,9 +1,12 @@
 <script setup>
 import UserLayout from "@/Pages/User/Layouts/UserLayout.vue";
 import {router, usePage} from "@inertiajs/vue3";
-import {computed} from "vue";
+import {computed, reactive} from "vue";
+defineProps({
+    userAddress:Object
+});
+// const userAddress=usePage().props.userAddress;
 
-const userAddress=usePage().props.userAddress;
 const cart= computed(()=>usePage().props.cart.data.items);
 const products= computed(()=>usePage().props.cart.data.products);
 const total= computed(()=>usePage().props.cart.data.total);
@@ -15,7 +18,35 @@ const update=(product, quantity)=>{
         quantity,
     });
 }
+const form=reactive({
+    address1:null,
+    state:null,
+    city:null,
+    zipcode:null,
+    country_code:null,
+    type:null,
+})
+const formFilled=computed(()=>{
+    return (form.address1!==null &&
+    form.city!==null &&
+    form.zipcode!==null &&
+    form.country_code!==null &&
+    form.type!==null)
+});
 const remove=(product)=>router.delete(route('cart.delete',product));
+
+const submit=()=>{
+    router.visit(route('checkout.store'),{
+        method:'post',
+        data: {
+            carts: usePage().props.cart.data.items,
+            products: usePage().props.cart.data.products,
+            total: usePage().props.cart.data.total,
+            address: form,
+
+        }
+    });
+}
 
 </script>
 
@@ -24,8 +55,8 @@ const remove=(product)=>router.delete(route('cart.delete',product));
         <section class="text-gray-600 body-font relative">
             <div class="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
                 <div class="lg:w-2/3 md:w-1/2 rounded-lg sm:mr-10 p-10">
-                    <!--  Cart List  -->
 
+                    <!--  Cart List  -->
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -96,22 +127,45 @@ const remove=(product)=>router.delete(route('cart.delete',product));
                     <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Summary</h2>
                     <p class="leading-relaxed mb-5 text-gray-600">Total: {{total}}$</p>
                     <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Shopping Address</h2>
-                    <p v-if="userAddress" class="leading-relaxed mb-5 text-gray-600">{{userAddress}}</p>
-                    <p v-else class="leading-relaxed mb-5 text-gray-600">1234 st example, usa, ny, 111 111</p>
-                    <p class="leading-relaxed mb-5 text-gray-600">or you can add new below</p>
-                    <div class="relative mb-4">
-                        <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
-                        <input type="text" id="name" name="name" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    <div v-if="userAddress">
+                        <p class="leading-relaxed mb-5 text-gray-600"> {{userAddress.address1}}, {{userAddress.city}},  {{userAddress.zipcode}}</p>
+                        <p class="leading-relaxed mb-5 text-gray-600">or you can add new below</p>
                     </div>
-                    <div class="relative mb-4">
-                        <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
-                        <input type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    <div v-else>
+                        <p class="leading-relaxed mb-5 text-gray-600">Add shipping address to continue</p>
                     </div>
-                    <div class="relative mb-4">
-                        <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
-                        <textarea id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
-                    </div>
-                    <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Checkout</button>
+
+                    <form @submit.prevent="submit">
+                        <div class="relative mb-4">
+                            <label for="address" class="leading-7 text-sm text-gray-600">Address 1</label>
+                            <input v-model="form.address1" type="text" id="address" name="address" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        </div>
+                        <div class="relative mb-4">
+                            <label for="city" class="leading-7 text-sm text-gray-600">City</label>
+                            <input v-model="form.city" type="text" id="city" name="city" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        </div>
+                        <div class="relative mb-4">
+                            <label for="state" class="leading-7 text-sm text-gray-600">State</label>
+                            <input v-model="form.state" type="text" id="state" name="state" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+
+                        </div>
+                        <div class="relative mb-4">
+                            <label for="zipcode" class="leading-7 text-sm text-gray-600">Zipcode</label>
+                            <input v-model="form.zipcode" type="text" id="zipcode" name="zipcode" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        </div>
+                        <div class="relative mb-4">
+                            <label for="country-code" class="leading-7 text-sm text-gray-600">Country Code</label>
+                            <input v-model="form.country_code" type="text" id="country-code" name="country-code" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        </div>
+                        <div class="relative mb-4">
+                            <label for="address-type" class="leading-7 text-sm text-gray-600">Address type</label>
+                            <input v-model="form.type" type="text" id="address-type" name="address-type" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        </div>
+                        <button v-if="formFilled || userAddress" type="submit"
+                                class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Checkout</button>
+                        <button v-else type="submit"
+                                class="text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg">Add Address to continue</button>
+                    </form>
                     <p class="text-xs text-gray-500 mt-3">Continue Shopping</p>
                 </div>
             </div>

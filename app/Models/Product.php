@@ -65,6 +65,6 @@ class Product extends Model
                     request('prices.from',0),
                     request('prices.to',100000),
                 ]);
-            });
+            })->orderByDesc('created_at');
     }
 }

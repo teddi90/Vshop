@@ -19,10 +19,10 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/vue/20/solid'
 import Products from "@/Pages/User/Components/Products.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
-import {router, useForm} from "@inertiajs/vue3";
+import {router, Link, useForm} from "@inertiajs/vue3";
 
 const props= defineProps({
-   products:Array,
+    products:Array,
     categories:Array,
     brands:Array,
 });
@@ -259,9 +259,38 @@ const mobileFiltersOpen = ref(false)
 
                             <!-- Product grid -->
                             <div class="lg:col-span-3">
-                                <Products v-if="products.data.length" :products="products.data"/>
+                                <Products v-if="products.data.length" :products="products.data" class="mb-7"/>
                                 <h3 v-else>There are no products with filtered parameters</h3>
+
+                                <!--    Pagination    -->
+                                <nav v-if="products.links.prev || products.links.next" aria-label="Page navigation example" class="flex justify-center ">
+                                    <ul class="flex items-center -space-x-px h-8 text-sm">
+                                        <li>
+                                            <Link :href="products.links.prev" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                <span class="sr-only">Previous</span>
+                                                <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                                                </svg>
+                                            </Link>
+                                        </li>
+                                        <li v-for="page in products.meta.links" :key="page.label">
+                                            <Link v-if="page.label.length<5" :href="page.url"
+                                               :class="page.active? 'flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'"
+                                            >{{page.label}}</Link>
+                                        </li>
+
+                                        <li>
+                                            <Link :href="products.links.next" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                <span class="sr-only">Next</span>
+                                                <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                                                </svg>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
+
                         </div>
                     </section>
                 </main>
