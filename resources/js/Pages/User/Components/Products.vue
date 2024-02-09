@@ -3,7 +3,11 @@ import {router} from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 
 defineProps({
-    products:Array
+    products:Array,
+    isThreeColumns:{
+        type:Boolean,
+        default:false
+    }
 });
 const addToCart = (product) => {
     router.post(`/cart/store/${product.id}`, product, {
@@ -14,6 +18,7 @@ const addToCart = (product) => {
                 icon: 'success',
                 position: 'top-end',
                 showConfirmButton: false,
+                timer: 2000,
                 title: page.props.flash.success
             });
         },
@@ -22,7 +27,8 @@ const addToCart = (product) => {
 </script>
 
 <template>
-    <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+    <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 xl:gap-x-8"
+         :class="{'lg:grid-cols-3':isThreeColumns,'lg:grid-cols-4':!isThreeColumns}">
         <div v-for="product in products" :key="product.id" class="group relative">
             <div
                 class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">

@@ -16,7 +16,7 @@ import {
     TransitionRoot,
 } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, ViewColumnsIcon } from '@heroicons/vue/20/solid'
 import Products from "@/Pages/User/Components/Products.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {router, Link, useForm} from "@inertiajs/vue3";
@@ -27,9 +27,15 @@ const props= defineProps({
     brands:Array,
 });
 
+const isThreeColumns=ref(true);
+
 const filterPrices=useForm({
     prices:[0,100000]
 });
+
+const toggleColumnsGrid=()=>{
+    isThreeColumns.value = !isThreeColumns.value;
+}
 
 const priceFilter= () =>{
     filterPrices.transform((data)=>({
@@ -157,9 +163,10 @@ const mobileFiltersOpen = ref(false)
                                 </transition>
                             </Menu>
 
-                            <button type="button" class="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
+                            <button @click="toggleColumnsGrid" type="button" class="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
                                 <span class="sr-only">View grid</span>
-                                <Squares2X2Icon class="h-5 w-5" aria-hidden="true" />
+                                <Squares2X2Icon v-if="isThreeColumns" class="h-5 w-5" aria-hidden="true" />
+                                <ViewColumnsIcon v-else class="h-5 w-5" aria-hidden="true" />
                             </button>
                             <button type="button" class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden" @click="mobileFiltersOpen = true">
                                 <span class="sr-only">Filters</span>
@@ -259,7 +266,7 @@ const mobileFiltersOpen = ref(false)
 
                             <!-- Product grid -->
                             <div class="lg:col-span-3">
-                                <Products v-if="products.data.length" :products="products.data" class="mb-7"/>
+                                <Products v-if="products.data.length" :products="products.data" :isThreeColumns="isThreeColumns" class="mb-7"/>
                                 <h3 v-else>There are no products with filtered parameters</h3>
 
                                 <!--    Pagination    -->

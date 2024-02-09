@@ -12,7 +12,7 @@ class Brand extends Model
     use HasFactory;
     use HasSlug;
 
-    protected $fillable=['name','slug'];
+    protected $fillable=['name','slug','created_by','updated_by','deleted_by'];
 
     public function products()
     {

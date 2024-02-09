@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CartController;
@@ -61,6 +62,12 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function (){
     Route::put('/products/update/{id}',[ProductController::class,'update'])->name('admin.products.update');
     Route::delete('/products/image/{id}',[ProductController::class,'deleteImage'])->name('admin.products.image.delete');
     Route::delete('/products/destroy/{id}',[ProductController::class,'destroy'])->name('admin.products.destroy');
+
+    //brand routes
+    Route::get('/brands',[BrandController::class,'index'])->name('admin.brands.index');
+    Route::post('/brands',[BrandController::class,'store'])->name('admin.brands.store');
+    Route::put('/brands/update/{id}',[BrandController::class,'update'])->name('admin.brands.update');
+    Route::delete('/brands/destroy/{id}',[BrandController::class,'destroy'])->name('admin.brands.destroy');
 
 });
 // end

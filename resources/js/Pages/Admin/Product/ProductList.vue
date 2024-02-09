@@ -65,6 +65,7 @@ const addProduct=async ()=>{
                     toast:true,
                     icon:'success',
                     position:'top-end',
+                    timer: 2000,
                     showConfirmButton:false,
                     title:page.props.flash.success
                 })
@@ -116,6 +117,7 @@ const deleteImage= async (image,index)=>{
                     toast:true,
                     icon:'success',
                     position:'top-end',
+                    timer: 2000,
                     showConfirmButton:false,
                     title:page.props.flash.success
                 })
@@ -148,6 +150,7 @@ const updateProduct= async()=>{
                     toast:true,
                     icon:'success',
                     position:'top-end',
+                    timer: 2000,
                     showConfirmButton:false,
                     title:page.props.flash.success
                 })
@@ -175,6 +178,7 @@ const deleteProduct=(product,index)=>{
                             Swal.fire({
                                 toast:true,
                                 icon:'success',
+                                timer: 2000,
                                 position:'top-end',
                                 showConfirmButton:false,
                                 title:page.props.flash.success
@@ -209,7 +213,7 @@ const deleteProduct=(product,index)=>{
                 <label for="floating_qty" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Quantity</label>
             </div>
 
-            <div>
+            <div class="mb-2">
                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Category</label>
                 <select v-model="category_id" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option v-for="category in categories"
@@ -218,7 +222,7 @@ const deleteProduct=(product,index)=>{
 
                 </select>
             </div>
-            <div>
+            <div class="mb-2">
                 <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Brand</label>
                 <select v-model="brand_id" id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option v-for="brand in brands"
@@ -233,7 +237,7 @@ const deleteProduct=(product,index)=>{
                 </div>
             </div>
             <div class="grid md:gap-6">
-                <div class="relative z-0 w-full mb-6 group">
+                <div class="relative z-0 w-full  group">
                     <el-upload
                         v-model:file-list="productImages"
                         multiple
@@ -282,9 +286,13 @@ const deleteProduct=(product,index)=>{
                     </div>
                     <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                         <button @click="openAddModal" type="button" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5 mr-1">
+                                <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM12.75 12a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V18a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V12Z" clip-rule="evenodd" />
+                                <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
                             </svg>
+
+
                             Add product
                         </button>
                         <div class="flex items-center space-x-3 w-full md:w-auto">
