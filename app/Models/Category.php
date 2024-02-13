@@ -11,7 +11,7 @@ class Category extends Model
 {
     use HasSlug;
     use HasFactory;
-    protected $fillable=['name','slug'];
+    protected $fillable=['name','slug','created_by','updated_by','deleted_by'];
 
     public function products()
     {

@@ -104,13 +104,13 @@
                                 :class="{'text-blue-500':$page.url==='/admin/brands'}"
                             >Brand</Link>
                         </li>
-<!--                        <li>-->
-<!--                            <Link-->
-<!--                                :href="route('admin.categories.index')"-->
-<!--                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"-->
-<!--                                :class="{'text-blue-500':$page.url==='/admin/categories'}"-->
-<!--                            >Category</Link>-->
-<!--                        </li>-->
+                        <li>
+                            <Link
+                                :href="route('admin.categories.index')"
+                                class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                :class="{'text-blue-500':$page.url==='/admin/categories'}"
+                            >Category</Link>
+                        </li>
                     </ul>
                 </li>
             </ul>

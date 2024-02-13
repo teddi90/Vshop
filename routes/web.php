@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CartController;
@@ -65,9 +66,15 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function (){
 
     //brand routes
     Route::get('/brands',[BrandController::class,'index'])->name('admin.brands.index');
-    Route::post('/brands',[BrandController::class,'store'])->name('admin.brands.store');
+    Route::post('/brands/store',[BrandController::class,'store'])->name('admin.brands.store');
     Route::put('/brands/update/{id}',[BrandController::class,'update'])->name('admin.brands.update');
     Route::delete('/brands/destroy/{id}',[BrandController::class,'destroy'])->name('admin.brands.destroy');
+
+    //category routes
+    Route::get('/categories',[CategoryController::class,'index'])->name('admin.categories.index');
+    Route::post('/categories/store',[CategoryController::class,'store'])->name('admin.categories.store');
+    Route::put('/categories/update/{id}',[CategoryController::class,'update'])->name('admin.categories.update');
+    Route::delete('/categories/destroy/{id}',[CategoryController::class,'destroy'])->name('admin.categories.destroy');
 
 });
 // end
