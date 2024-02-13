@@ -270,6 +270,7 @@ const mobileFiltersOpen = ref(false)
                                 <h3 v-else>There are no products with filtered parameters</h3>
 
                                 <!--    Pagination    -->
+
                                 <nav v-if="products.links.prev || products.links.next" aria-label="Page navigation example" class="flex justify-center ">
                                     <ul class="flex items-center -space-x-px h-8 text-sm">
                                         <li>

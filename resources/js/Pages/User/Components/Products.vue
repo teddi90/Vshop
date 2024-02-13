@@ -1,5 +1,5 @@
-<script setup>
-import {router} from "@inertiajs/vue3";
+<script setup xmlns="http://www.w3.org/1999/html">
+import {router, Link} from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 
 defineProps({
@@ -31,7 +31,7 @@ const addToCart = (product) => {
          :class="{'lg:grid-cols-3':isThreeColumns,'lg:grid-cols-4':!isThreeColumns}">
         <div v-for="product in products" :key="product.id" class="group relative">
             <div
-                class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                class="z-10 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                 <img v-if="product.product_images.length>0" :src="`/${product.product_images[0].image}`"
                      :alt="product.title"
                      class="h-full w-full object-cover object-center lg:h-full lg:w-full"/>
@@ -52,7 +52,7 @@ const addToCart = (product) => {
                         </a>
                     </div>
                     <div class="bg-blue-700 p-2 rounded-full">
-                        <a href="detail">
+                        <Link :href="`/products/${product.id}`">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -61,19 +61,16 @@ const addToCart = (product) => {
                                       d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                             </svg>
 
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
-            <div class="mt-4 flex justify-between">
+            <div class="relative z-10 mt-4 flex justify-between">
                 <div>
-                    <h3 class="text-sm text-gray-700">
-                        <span aria-hidden="true" class=""/>
-                        {{ product.title }}
-                    </h3>
+                    <p class="text-sm text-gray-700">{{ product.title }}</p>
                     <p class="mt-1 text-sm text-gray-500">{{ product.brand.name }}</p>
                 </div>
-                <p class="text-sm font-medium text-gray-900">$ {{ product.price }}</p>
+                <p class="text-sm font-medium text-gray-900">${{ product.price }}</p>
             </div>
         </div>
     </div>

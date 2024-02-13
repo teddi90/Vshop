@@ -27,4 +27,10 @@ class ProductListController extends Controller
 
         ]);
     }
+
+    public function product($id)
+    {
+        $product=Product::with('category','brand','product_images')->findOrFail($id);
+        return Inertia::render('User/ProductPage',['product'=>$product]);
+    }
 }

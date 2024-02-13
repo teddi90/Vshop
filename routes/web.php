@@ -44,6 +44,7 @@ Route::prefix('cart')->controller(CartController::class)->group(function (){
 // routes for products list and filter
 Route::prefix('products')->controller(ProductListController::class)->group(function (){
    Route::get('/','index')->name('products.index');
+   Route::get('/{id}','product')->name('products.product');
 });
 
 
