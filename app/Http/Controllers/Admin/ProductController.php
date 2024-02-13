@@ -15,7 +15,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products=Product::with('category','brand','product_images')->get();
+        $products=Product::with('category','brand','product_images')->paginate(10)->withQueryString();
         $categories=Category::get();
         $brands=Brand::get();
         return Inertia::render('Admin/Product/Index',['products'=>$products, 'categories'=>$categories, 'brands'=>$brands]);
