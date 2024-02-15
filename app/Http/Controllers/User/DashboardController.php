@@ -15,6 +15,7 @@ class DashboardController extends Controller
         $userId = Auth::id();
         $orders = Order::where('created_by', $userId)
             ->with('order_items.product.brand', 'order_items.product.category')
+            ->orderByDesc('created_at')
             ->get();
         return Inertia::render('User/Dashboard',['orders'=>$orders]);
     }

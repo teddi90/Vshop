@@ -1,8 +1,13 @@
 <script setup>
 import UserLayout from "@/Pages/User/Layouts/UserLayout.vue";
+import { DateTime } from 'luxon';
 defineProps({
     orders:Array
 })
+const convertedDate=(date)=>{
+    const utcDateTime = DateTime.fromMillis(Date.parse(date));
+    return utcDateTime.setZone('Europe/Kyiv').toFormat('dd.MM.yyyy HH:mm:ss');
+}
 </script>
 
 <template>
@@ -51,9 +56,9 @@ defineProps({
                     <tfoot>
                     <tr class="font-semibold text-gray-900 dark:text-white bg-gray-50 ">
                         <th scope="row" class="px-6 py-2 text-base rounded-s-lg">Date:</th>
-                        <td class="px-6 py-2">{{order.updated_at.split('T')[0]}}  </td>
-                        <td class="px-6 py-2">{{order.updated_at.split('T')[1].split('.')[0]}}</td>
-                        <td class="px-6 py-2 text-base">Total:</td>
+                        <th class="px-6 py-2">{{convertedDate(order.updated_at).split(' ')[0]}}</th>
+                        <th class="px-6 py-2">{{convertedDate(order.updated_at).split(' ')[1]}}</th>
+                        <th class="px-6 py-2 text-base">Total:</th>
                         <td class="px-6 py-2 rounded-e-lg text-base"> ${{order.total_price}}</td>
                     </tr>
                     </tfoot>
